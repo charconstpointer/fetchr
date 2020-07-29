@@ -9,13 +9,13 @@ import (
 
 func main() {
 	w := fetcher.NewWorker()
-	p := fetcher.NewProbe("https://google.com", 1)
+	p := fetcher.NewProbe(1, "https://google.com", 1)
 	j := fetcher.NewJob(p)
 
-	p2 := fetcher.NewProbe("https://polskieradio.pl", 3)
+	p2 := fetcher.NewProbe(2, "https://polskieradio.pl", 3)
 	j2 := fetcher.NewJob(p2)
 
-	p3 := fetcher.NewProbe("https://httpbin.org/delay/10", 3)
+	p3 := fetcher.NewProbe(3, "https://httpbin.org/delay/10", 3)
 	j3 := fetcher.NewJob(p3)
 
 	ctx := context.Background()
@@ -27,7 +27,7 @@ func main() {
 	for {
 		select {
 		case r := <-w.R:
-			log.Printf("%v\n", r.Success)
+			log.Printf("[job] %d %s finished with status : SUCCESS = %t, dur : %v\n", r.Probe, r.URL, r.Success, r.Dur)
 		}
 	}
 

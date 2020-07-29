@@ -21,7 +21,7 @@ func (suite *WorkerTestSuite) SetupTest() {
 }
 
 func (suite *WorkerTestSuite) TestAddJob() {
-	p := NewProbe("https://google.com", 10)
+	p := NewProbe(3, "https://google.com", 10)
 	j := NewJob(p)
 	ctx := context.Background()
 
@@ -34,7 +34,7 @@ func (suite *WorkerTestSuite) TestStart() {
 
 	go suite.w.Start(ctx)
 
-	p := NewProbe("https://google.com", 10)
+	p := NewProbe(1, "https://google.com", 10)
 	j := NewJob(p)
 
 	suite.w.AddJob(j)
@@ -44,7 +44,7 @@ func (suite *WorkerTestSuite) Testexecute() {
 
 	w := NewWorker()
 
-	p := NewProbe("https://google.com", 10)
+	p := NewProbe(2, "https://google.com", 10)
 	j := NewJob(p)
 
 	r, _ := w.execute(j)

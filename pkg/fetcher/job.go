@@ -15,6 +15,8 @@ type Job struct {
 	p Probe
 }
 type Result struct {
+	Probe   int
+	URL     string
 	Success bool
 	Res     string
 	Dur     int

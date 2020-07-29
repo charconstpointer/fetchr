@@ -73,16 +73,18 @@ func (w *Worker) execute(j *Job) (*Result, error) {
 	stop := time.Since(start)
 	if err != nil {
 		return &Result{
-			res:     err.Error(),
-			dur:     int(stop.Nanoseconds()),
-			success: false,
-			date:    time.Now(),
+			Res:     err.Error(),
+			Dur:     int(stop.Nanoseconds()),
+			Success: false,
+			Date:    time.Now(),
 		}, nil
 	}
 
 	res, err := w.parseResp(r)
 	if err != nil {
 		return &Result{
+			Probe:   j.p.id,
+			URL:     j.p.url,
 			Res:     res,
 			Dur:     int(stop.Nanoseconds()),
 			Success: false,
@@ -90,6 +92,8 @@ func (w *Worker) execute(j *Job) (*Result, error) {
 		}, nil
 	}
 	return &Result{
+		Probe:   j.p.id,
+		URL:     j.p.url,
 		Res:     res,
 		Dur:     int(stop.Nanoseconds()),
 		Success: true,
