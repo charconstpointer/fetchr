@@ -15,9 +15,14 @@ func main() {
 	p2 := fetcher.NewProbe("https://polskieradio.pl", 3)
 	j2 := fetcher.NewJob(p2)
 
+	p3 := fetcher.NewProbe("https://httpbin.org/delay/10", 3)
+	j3 := fetcher.NewJob(p3)
+
 	ctx := context.Background()
 	w.AddJob(j)
 	w.AddJob(j2)
+	w.AddJob(j3)
+
 	go w.Start(ctx)
 	for {
 		select {
