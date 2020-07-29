@@ -66,7 +66,12 @@ func (w *Worker) execute(j *Job) (*Result, error) {
 	r, err := client.Get(j.p.url)
 	stop := time.Since(start)
 	if err != nil {
-		return nil, err
+		return &Result{
+			res:     err.Error(),
+			dur:     int(stop.Nanoseconds()),
+			success: false,
+			date:    time.Now(),
+		}, nil
 	}
 
 	res, err := w.parseResp(r)
