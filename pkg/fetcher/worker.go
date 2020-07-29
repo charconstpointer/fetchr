@@ -16,6 +16,7 @@ type worker interface {
 type Worker struct {
 	j    []*Job
 	jobs chan (*Job)
+	R    chan (*Result)
 	rw   sync.RWMutex
 }
 
@@ -23,6 +24,7 @@ func NewWorker() *Worker {
 	return &Worker{
 		j:    make([]*Job, 0),
 		jobs: make(chan *Job),
+		R:    make(chan *Result),
 	}
 }
 
@@ -45,7 +47,11 @@ func (w *Worker) Start(ctx context.Context) {
 						log.Print(err)
 						break
 					}
-					log.Printf("%s : %t %d", job.p.url, res.success, res.dur)
+					select {
+					case w.R <- res:
+					default:
+						log.Println("can't persist job result")
+					}
 				case _ = <-(*job).D:
 					log.Print("stopping worker")
 					return
@@ -72,17 +78,17 @@ func (w *Worker) execute(j *Job) (*Result, error) {
 	res, err := w.parseResp(r)
 	if err != nil {
 		return &Result{
-			res:     res,
-			dur:     int(stop.Nanoseconds()),
-			success: false,
-			date:    time.Now(),
+			Res:     res,
+			Dur:     int(stop.Nanoseconds()),
+			Success: false,
+			Date:    time.Now(),
 		}, nil
 	}
 	return &Result{
-		res:     res,
-		dur:     int(stop.Nanoseconds()),
-		success: true,
-		date:    time.Now(),
+		Res:     res,
+		Dur:     int(stop.Nanoseconds()),
+		Success: true,
+		Date:    time.Now(),
 	}, nil
 }
 func (w *Worker) parseResp(r *http.Response) (string, error) {

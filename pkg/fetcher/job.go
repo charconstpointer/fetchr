@@ -15,10 +15,10 @@ type Job struct {
 	p Probe
 }
 type Result struct {
-	success bool
-	res     string
-	dur     int
-	date    time.Time
+	Success bool
+	Res     string
+	Dur     int
+	Date    time.Time
 }
 
 func NewJob(p *Probe) *Job {

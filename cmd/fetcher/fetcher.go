@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"time"
+	"log"
 
 	"github.com/charconstpointer/fetchr/pkg/fetcher"
 )
@@ -19,6 +19,11 @@ func main() {
 	w.AddJob(j)
 	w.AddJob(j2)
 	go w.Start(ctx)
+	for {
+		select {
+		case r := <-w.R:
+			log.Printf("%v\n", r.Success)
+		}
+	}
 
-	time.Sleep(1000 * time.Second)
 }

@@ -48,6 +48,6 @@ func (suite *WorkerTestSuite) Testexecute() {
 	j := NewJob(p)
 
 	r, _ := w.execute(j)
-	suite.True(r.success)
+	suite.True(r.Success)
 
 }
