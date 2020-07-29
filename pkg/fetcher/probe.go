@@ -1,8 +1,5 @@
 package fetcher
 
-type probe interface {
-}
-
 type Probe struct {
 	url      string
 	interval int
