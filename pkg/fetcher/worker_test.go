@@ -24,14 +24,14 @@ func (suite *WorkerTestSuite) TestAddJob() {
 	p := NewProbe("https://google.com", 10)
 	j := NewJob(p)
 	ctx := context.Background()
-	ctx, _ = context.WithCancel(ctx)
+
 	go suite.w.Start(ctx)
 	suite.w.AddJob(j)
 }
 
 func (suite *WorkerTestSuite) TestStart() {
 	ctx := context.Background()
-	ctx, _ = context.WithCancel(ctx)
+
 	go suite.w.Start(ctx)
 
 	p := NewProbe("https://google.com", 10)

@@ -41,15 +41,3 @@ func (j *Job) Cancel() {
 func (j *Job) Probe() Probe {
 	return j.p
 }
-
-func (j *Job) execute() (interface{}, error) {
-	for {
-		select {
-		case _ = <-j.T.C:
-			log.Printf("executing job, %v", time.Now())
-		case _ = <-j.D:
-			log.Printf("stopping job, %v", time.Now())
-			return nil, nil
-		}
-	}
-}
