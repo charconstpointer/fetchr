@@ -4,8 +4,13 @@ type probe interface {
 }
 
 type Probe struct {
+	url      string
+	interval int
 }
 
-func NewProbe() *Probe {
-	return &Probe{}
+func NewProbe(url string, interval int) *Probe {
+	return &Probe{
+		url:      url,
+		interval: interval,
+	}
 }
